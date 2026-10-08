@@ -1,0 +1,114 @@
+-- =============================================================================
+-- CAMPUS DROP: SMART LOST AND FOUND MANAGEMENT SYSTEM
+-- ORACLE SQL DATABASE INITIALIZATION SCRIPT
+-- Compatible with Oracle XE, Oracle 12c, 18c, 19c, 21c
+-- =============================================================================
+
+-- Drop existing constraints & tables gracefully
+BEGIN
+   EXECUTE IMMEDIATE 'DROP TABLE RECOVERY_HISTORY CASCADE CONSTRAINTS';
+EXCEPTION WHEN OTHERS THEN NULL;
+END;
+/
+
+BEGIN
+   EXECUTE IMMEDIATE 'DROP TABLE CLAIMS CASCADE CONSTRAINTS';
+EXCEPTION WHEN OTHERS THEN NULL;
+END;
+/
+
+BEGIN
+   EXECUTE IMMEDIATE 'DROP TABLE ITEMS CASCADE CONSTRAINTS';
+EXCEPTION WHEN OTHERS THEN NULL;
+END;
+/
+
+-- Drop existing sequences gracefully
+BEGIN EXECUTE IMMEDIATE 'DROP SEQUENCE ITEM_SEQ'; EXCEPTION WHEN OTHERS THEN NULL; END;
+/
+BEGIN EXECUTE IMMEDIATE 'DROP SEQUENCE CLAIM_SEQ'; EXCEPTION WHEN OTHERS THEN NULL; END;
+/
+BEGIN EXECUTE IMMEDIATE 'DROP SEQUENCE HISTORY_SEQ'; EXCEPTION WHEN OTHERS THEN NULL; END;
+/
+
+-- -----------------------------------------------------------------------------
+-- 1. ITEMS TABLE
+-- Stores all reported Lost and Found items in the college system.
+-- -----------------------------------------------------------------------------
+CREATE TABLE ITEMS (
+    ITEM_ID     NUMBER PRIMARY KEY,
+    ITEM_NAME   VARCHAR2(100) NOT NULL,
+    CATEGORY    VARCHAR2(50) NOT NULL,
+    LOCATION    VARCHAR2(100) NOT NULL,
+    REPORT_DATE VARCHAR2(30) DEFAULT TO_CHAR(SYSDATE, 'DD/MM/YYYY'),
+    REPORTED_BY VARCHAR2(100) NOT NULL,
+    STUDENT_ID  VARCHAR2(30),
+    ITEM_TYPE   VARCHAR2(10) CONSTRAINT CHK_ITEM_TYPE CHECK (ITEM_TYPE IN ('LOST', 'FOUND')),
+    STATUS      VARCHAR2(20) CONSTRAINT CHK_STATUS CHECK (STATUS IN ('ACTIVE', 'CLAIMED', 'RETURNED'))
+);
+
+-- Sequence for Item IDs starting at 101
+CREATE SEQUENCE ITEM_SEQ START WITH 101 INCREMENT BY 1 NOCACHE;
+
+-- -----------------------------------------------------------------------------
+-- 2. CLAIMS TABLE
+-- Stores claim requests submitted by students for found items.
+-- -----------------------------------------------------------------------------
+CREATE TABLE CLAIMS (
+    CLAIM_ID     NUMBER PRIMARY KEY,
+    ITEM_ID      NUMBER NOT NULL,
+    STUDENT_NAME VARCHAR2(100) NOT NULL,
+    STUDENT_ID   VARCHAR2(30) NOT NULL,
+    CLAIM_REASON VARCHAR2(500) NOT NULL,
+    CLAIM_STATUS VARCHAR2(20) DEFAULT 'PENDING' CONSTRAINT CHK_CLAIM_STATUS CHECK (CLAIM_STATUS IN ('PENDING', 'APPROVED', 'REJECTED')),
+    CLAIM_DATE   VARCHAR2(30) DEFAULT TO_CHAR(SYSDATE, 'DD/MM/YYYY'),
+    CONSTRAINT FK_CLAIMS_ITEM FOREIGN KEY (ITEM_ID) REFERENCES ITEMS(ITEM_ID) ON DELETE CASCADE
+);
+
+CREATE SEQUENCE CLAIM_SEQ START WITH 1 INCREMENT BY 1 NOCACHE;
+
+-- -----------------------------------------------------------------------------
+-- 3. RECOVERY_HISTORY TABLE
+-- Stores history log of successfully returned property.
+-- -----------------------------------------------------------------------------
+CREATE TABLE RECOVERY_HISTORY (
+    HISTORY_ID   NUMBER PRIMARY KEY,
+    ITEM_ID      NUMBER NOT NULL,
+    ITEM_NAME    VARCHAR2(100) NOT NULL,
+    STUDENT_NAME VARCHAR2(100) NOT NULL,
+    RETURN_DATE  VARCHAR2(30) DEFAULT TO_CHAR(SYSDATE, 'DD/MM/YYYY'),
+    STATUS       VARCHAR2(20) DEFAULT 'RETURNED',
+    CONSTRAINT FK_HISTORY_ITEM FOREIGN KEY (ITEM_ID) REFERENCES ITEMS(ITEM_ID) ON DELETE CASCADE
+);
+
+CREATE SEQUENCE HISTORY_SEQ START WITH 1 INCREMENT BY 1 NOCACHE;
+
+-- -----------------------------------------------------------------------------
+-- INDEXES FOR PERFORMANCE OPTIMIZATION
+-- -----------------------------------------------------------------------------
+CREATE INDEX IDX_ITEMS_NAME ON ITEMS(LOWER(ITEM_NAME));
+CREATE INDEX IDX_ITEMS_STATUS ON ITEMS(STATUS);
+CREATE INDEX IDX_ITEMS_TYPE ON ITEMS(ITEM_TYPE);
+
+-- -----------------------------------------------------------------------------
+-- SAMPLE DEMO RECORDS
+-- -----------------------------------------------------------------------------
+INSERT INTO ITEMS (ITEM_ID, ITEM_NAME, CATEGORY, LOCATION, REPORT_DATE, REPORTED_BY, STUDENT_ID, ITEM_TYPE, STATUS)
+VALUES (101, 'Black Wallet', 'Personal', 'Library', '25/09/2026', 'Rahul Sharma', '24CS010', 'LOST', 'ACTIVE');
+
+INSERT INTO ITEMS (ITEM_ID, ITEM_NAME, CATEGORY, LOCATION, REPORT_DATE, REPORTED_BY, STUDENT_ID, ITEM_TYPE, STATUS)
+VALUES (102, 'Casio Calculator', 'Electronics', 'Block B', '24/09/2026', 'Ananya Roy', '24EC045', 'FOUND', 'ACTIVE');
+
+INSERT INTO ITEMS (ITEM_ID, ITEM_NAME, CATEGORY, LOCATION, REPORT_DATE, REPORTED_BY, STUDENT_ID, ITEM_TYPE, STATUS)
+VALUES (103, 'Blue Water Bottle', 'Personal', 'Canteen', '25/09/2026', 'Vikram Singh', '24ME089', 'LOST', 'ACTIVE');
+
+INSERT INTO ITEMS (ITEM_ID, ITEM_NAME, CATEGORY, LOCATION, REPORT_DATE, REPORTED_BY, STUDENT_ID, ITEM_TYPE, STATUS)
+VALUES (104, 'HP Laptop Charger', 'Electronics', 'Lab 2', '23/09/2026', 'Neha Gupta', '24CS102', 'FOUND', 'ACTIVE');
+
+INSERT INTO ITEMS (ITEM_ID, ITEM_NAME, CATEGORY, LOCATION, REPORT_DATE, REPORTED_BY, STUDENT_ID, ITEM_TYPE, STATUS)
+VALUES (105, 'College ID Card', 'Documents', 'Main Block', '25/09/2026', 'Amit Verma', '24IT055', 'LOST', 'ACTIVE');
+
+COMMIT;
+
+-- Print Confirmation
+SELECT 'CAMPUS DROP ORACLE SCHEMA INITIALIZED SUCCESSFULLY' AS STATUS FROM DUAL;

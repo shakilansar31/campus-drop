@@ -1,0 +1,11 @@
+# Copy this file to campusdrop.properties and set the details for your local Oracle database.
+# Keep campusdrop.properties private; it contains your database password.
+db.host=localhost
+db.port=1522
+db.service=XEPDB1
+db.username=system
+db.password=
+
+# Optional: use this instead of host, port, and service if your installer gave you a full JDBC URL.
+# Example for an Oracle XE pluggable database:
+# db.url=jdbc:oracle:thin:@//localhost:1522/XEPDB1

@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusDrop - Smart Lost & Found System</title>
+    <!-- Tailwind CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Google Fonts: Space Grotesk & Plus Jakarta Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800;900&family=Space+Grotesk:wght@700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: #FFFDF5; 
+            color: #000000;
+        }
+
+        .heading-font {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        /* Neo-Brutalism Core Styling */
+        .neo-box {
+            background-color: #FFFFFF;
+            border: 3px solid #000000;
+            box-shadow: 5px 5px 0px 0px #000000;
+            border-radius: 12px;
+            transition: transform 0.1s ease, box-shadow 0.1s ease;
+        }
+
+        .neo-box-yellow {
+            background-color: #FEF08A;
+            border: 3px solid #000000;
+            box-shadow: 5px 5px 0px 0px #000000;
+            border-radius: 12px;
+        }
+
+        .neo-box-blue {
+            background-color: #BAE6FD;
+            border: 3px solid #000000;
+            box-shadow: 5px 5px 0px 0px #000000;
+            border-radius: 12px;
+        }
+
+        .neo-box-pink {
+            background-color: #FBCFE8;
+            border: 3px solid #000000;
+            box-shadow: 5px 5px 0px 0px #000000;
+            border-radius: 12px;
+        }
+
+        .neo-box-green {
+            background-color: #BBF7D0;
+            border: 3px solid #000000;
+            box-shadow: 5px 5px 0px 0px #000000;
+            border-radius: 12px;
+        }
+
+        .neo-box-purple {
+            background-color: #E9D5FF;
+            border: 3px solid #000000;
+            box-shadow: 5px 5px 0px 0px #000000;
+            border-radius: 12px;
+        }
+
+        .neo-btn {
+            background-color: #FACC15;
+            color: #000000;
+            border: 3px solid #000000;
+            box-shadow: 3px 3px 0px 0px #000000;
+            font-weight: 800;
+            border-radius: 8px;
+            transition: all 0.1s ease;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+
+        .neo-btn:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 5px 5px 0px 0px #000000;
+        }
+
+        .neo-btn:active {
+            transform: translate(2px, 2px);
+            box-shadow: 1px 1px 0px 0px #000000;
+        }
+
+        .neo-btn-black {
+            background-color: #000000;
+            color: #FACC15;
+            border: 3px solid #000000;
+            box-shadow: 3px 3px 0px 0px #000000;
+            font-weight: 800;
+            border-radius: 8px;
+            transition: all 0.1s ease;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+
+        .neo-btn-black:hover {
+            background-color: #18181b;
+            transform: translate(-2px, -2px);
+            box-shadow: 5px 5px 0px 0px #000000;
+        }
+
+        .neo-btn-black:active {
+            transform: translate(2px, 2px);
+            box-shadow: 1px 1px 0px 0px #000000;
+        }
+
+        .neo-btn-danger {
+            background-color: #F87171;
+            color: #000000;
+            border: 3px solid #000000;
+            box-shadow: 3px 3px 0px 0px #000000;
+            font-weight: 800;
+            border-radius: 8px;
+            transition: all 0.1s ease;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+
+        .neo-btn-danger:hover {
+            background-color: #EF4444;
+            transform: translate(-2px, -2px);
+            box-shadow: 5px 5px 0px 0px #000000;
+        }
+
+        .neo-badge {
+            border: 2px solid #000000;
+            font-weight: 800;
+            text-transform: uppercase;
+            font-size: 11px;
+            padding: 3px 10px;
+            border-radius: 6px;
+            box-shadow: 2px 2px 0px 0px #000000;
+            display: inline-block;
+            white-space: nowrap;
+        }
+
+        .neo-input {
+            border: 3px solid #000000;
+            box-shadow: 3px 3px 0px 0px #000000;
+            border-radius: 8px;
+            font-weight: 700;
+        }
+
+        .neo-input:focus {
+            outline: none;
+            background-color: #FEF9C3;
+        }
+
+        /* Pulse Dot */
+        .pulse-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #10B981;
+            box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+            animation: pulse 1.6s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+            }
+            70% {
+                transform: scale(1);
+                box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
+            }
+            100% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+            }
+        }
+    </style>
+</head>
+<body class="h-full flex flex-col antialiased">
+
+    <!-- Top Navigation Bar -->
+    <header class="bg-yellow-400 border-b-4 border-black sticky top-0 z-40 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
+            
+            <!-- Brand Logo & Engine Pill -->
+            <div class="flex items-center space-x-4">
+                <a href="/" class="bg-black text-yellow-300 px-4 py-2 rounded-xl border-3 border-black font-black heading-font text-lg tracking-wide whitespace-nowrap shadow-sm hover:opacity-95">
+                    CAMPUS DROP ⚡
+                </a>
+                <div class="hidden lg:flex items-center space-x-2 bg-white text-black font-extrabold text-xs px-3.5 py-2 rounded-xl border-2 border-black whitespace-nowrap">
+                    <span class="pulse-dot"></span>
+                    <span id="oracle-indicator">ORACLE SQL DB CONNECTED</span>
+                </div>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="flex flex-wrap items-center gap-2.5 font-extrabold text-xs">
+                <a href="#catalog" class="bg-white hover:bg-yellow-100 text-black px-3 py-2 rounded-xl border-2 border-black transition flex items-center">
+                    <i class="fas fa-boxes mr-1.5"></i> Catalog
+                </a>
+                <a href="#matches" class="bg-white hover:bg-yellow-100 text-black px-3 py-2 rounded-xl border-2 border-black transition flex items-center">
+                    <i class="fas fa-bolt mr-1.5"></i> Matches
+                </a>
+                <a href="#queue" class="bg-white hover:bg-yellow-100 text-black px-3 py-2 rounded-xl border-2 border-black transition flex items-center">
+                    <i class="fas fa-list-ol mr-1.5"></i> Queue (FIFO)
+                </a>
+                <a href="#history" class="bg-white hover:bg-yellow-100 text-black px-3 py-2 rounded-xl border-2 border-black transition flex items-center">
+                    <i class="fas fa-history mr-1.5"></i> Audit (LinkedList)
+                </a>
+                <a href="/oop" class="bg-black text-yellow-300 hover:bg-zinc-800 px-3 py-2 rounded-xl border-2 border-black transition flex items-center">
+                    <i class="fas fa-graduation-cap mr-1.5"></i> OOP Guide
+                </a>
+            </nav>
+
+            <!-- Top Actions -->
+            <div class="flex items-center space-x-2.5">
+                <button onclick="undoLastAction()" title="Revert last operation via Stack LIFO" class="neo-btn px-3 py-2 text-xs flex items-center bg-white hover:bg-yellow-100">
+                    <i class="fas fa-undo mr-1.5 text-black"></i> Undo (Stack)
+                </button>
+                <button onclick="openReportModal('LOST')" class="neo-btn bg-red-400 px-3 py-2 text-xs flex items-center text-black">
+                    <i class="fas fa-search mr-1.5"></i> + Report Lost
+                </button>
+                <button onclick="openReportModal('FOUND')" class="neo-btn-black px-3.5 py-2 text-xs flex items-center">
+                    <i class="fas fa-hand-holding-heart mr-1.5 text-yellow-300"></i> + Report Found
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="max-w-7xl mx-auto px-6 py-8 flex-grow w-full space-y-8">
+
+        <!-- Functional Control Banner & Demo Trigger -->
+        <div class="neo-box-yellow p-6 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+            <div class="space-y-1">
+                <div class="flex items-center space-x-2">
+                    <span class="neo-badge bg-black text-yellow-300">INTERACTIVE DASHBOARD</span>
+                    <span class="neo-badge bg-emerald-400 text-black">O(1) HASHMAP ENGINE</span>
+                    <span class="neo-badge bg-white text-black">ORACLE 21c XE</span>
+                </div>
+                <h1 class="text-3xl font-black heading-font text-black tracking-tight mt-2">
+                    Smart Campus Lost & Found System
+                </h1>
+                <p class="text-xs font-bold text-black max-w-2xl">
+                    Every operation on this dashboard is fully functional: reports are persisted to Oracle SQL, claims are sequenced in a Java FIFO Queue, returns are logged into a Java LinkedList via 2-phase JDBC commit, and all operations can be undone via Stack.
+                </p>
+            </div>
+
+            <!-- Instant Functional Actions -->
+            <div class="flex flex-wrap items-center gap-3">
+                <button onclick="seedDemoData()" class="neo-btn-black px-4 py-2.5 text-xs flex items-center shadow-md">
+                    <i class="fas fa-magic mr-2 text-yellow-300"></i> 1-Click Demo Seed
+                </button>
+                <button onclick="loadDashboard()" class="neo-btn bg-white px-4 py-2.5 text-xs flex items-center">
+                    <i id="refresh-icon" class="fas fa-sync-alt mr-2 text-black"></i> Sync Live Data
+                </button>
+            </div>
+        </div>
+
+        <!-- Metric Cards Row (Clickable to Filter) -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-5">
+            
+            <!-- Stat 1: HashMap -->
+            <div onclick="applyQuickFilter('ALL', '')" class="neo-box-yellow p-5 cursor-pointer hover:shadow-lg transition">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-black uppercase tracking-wider">Total Reported</span>
+                    <span class="neo-badge bg-white text-black">HashMap</span>
+                </div>
+                <div class="mt-4 flex items-baseline justify-between">
+                    <span id="stat-total" class="text-4xl font-black heading-font">0</span>
+                    <span class="text-xs font-extrabold text-black">O(1) Lookup</span>
+                </div>
+                <div class="mt-2 text-xs font-bold text-gray-800">
+                    Click to view all items &rarr;
+                </div>
+            </div>
+
+            <!-- Stat 2: Active Items -->
+            <div onclick="applyQuickFilter('', 'ACTIVE')" class="neo-box-blue p-5 cursor-pointer hover:shadow-lg transition">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-black uppercase tracking-wider">Active Available</span>
+                    <span class="neo-badge bg-white text-black">Ready</span>
+                </div>
+                <div class="mt-4 flex items-baseline justify-between">
+                    <span id="stat-active" class="text-4xl font-black heading-font text-blue-950">0</span>
+                    <span class="text-xs font-extrabold text-blue-950">Open</span>
+                </div>
+                <div class="mt-2 text-xs font-bold text-blue-950">
+                    Click to filter active &rarr;
+                </div>
+            </div>
+
+            <!-- Stat 3: Queue -->
+            <div onclick="document.getElementById('queue').scrollIntoView({behavior: 'smooth'})" class="neo-box-purple p-5 cursor-pointer hover:shadow-lg transition">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-black uppercase tracking-wider">Pending Claims</span>
+                    <span class="neo-badge bg-white text-black">Queue FIFO</span>
+                </div>
+                <div class="mt-4 flex items-baseline justify-between">
+                    <span id="stat-queue" class="text-4xl font-black heading-font text-purple-950">0</span>
+                    <span class="text-xs font-extrabold text-purple-950">In Line</span>
+                </div>
+                <div class="mt-2 text-xs font-bold text-purple-950">
+                    Jump to Claim Queue &rarr;
+                </div>
+            </div>
+
+            <!-- Stat 4: LinkedList -->
+            <div onclick="document.getElementById('history').scrollIntoView({behavior: 'smooth'})" class="neo-box-green p-5 cursor-pointer hover:shadow-lg transition">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-black uppercase tracking-wider">Items Returned</span>
+                    <span class="neo-badge bg-white text-black">LinkedList</span>
+                </div>
+                <div class="mt-4 flex items-baseline justify-between">
+                    <span id="stat-returned" class="text-4xl font-black heading-font text-emerald-950">0</span>
+                    <span class="text-xs font-extrabold text-emerald-950">Audit</span>
+                </div>
+                <div class="mt-2 text-xs font-bold text-emerald-950">
+                    Jump to Audit History &rarr;
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Section 2: Intelligent Match Engine & Live FIFO Claim Queue -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+            <!-- Match Detection Box (7 Cols) -->
+            <div id="matches" class="lg:col-span-7 neo-box p-6 space-y-4">
+                <div class="flex items-center justify-between border-b-3 border-black pb-3">
+                    <div>
+                        <span class="neo-badge bg-yellow-300 text-black">AUTOMATED ENGINE</span>
+                        <h3 class="text-xl font-black heading-font text-black mt-1">Cross-Reference Match Detector</h3>
+                    </div>
+                    <button onclick="loadMatches()" class="neo-btn bg-yellow-300 px-3 py-1.5 text-xs">
+                        <i class="fas fa-sync-alt mr-1"></i> Rescan
+                    </button>
+                </div>
+                <p class="text-xs font-bold text-gray-600">
+                    Scans all active lost items against active found items in memory based on name keywords, categories, and campus locations:
+                </p>
+
+                <div id="matches-container" class="space-y-3 max-h-72 overflow-y-auto pr-1">
+                    <!-- Dynamic matches -->
+                </div>
+            </div>
+
+            <!-- Claim Queue (FIFO) (5 Cols) -->
+            <div id="queue" class="lg:col-span-5 neo-box-purple p-6 space-y-4">
+                <div class="flex items-center justify-between border-b-3 border-black pb-3">
+                    <div>
+                        <span class="neo-badge bg-white text-black">QUEUE &bull; FIFO</span>
+                        <h3 class="text-xl font-black heading-font text-black mt-1">Student Claims Queue</h3>
+                    </div>
+                    <span id="queue-badge" class="neo-badge bg-black text-yellow-300">0 Pending</span>
+                </div>
+                <p class="text-xs font-bold text-gray-700">
+                    First-Come First-Served claim processing. Approve or reject the claim at the front of the queue:
+                </p>
+
+                <div id="queue-container" class="space-y-3 max-h-72 overflow-y-auto pr-1">
+                    <!-- Dynamic claims -->
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Section 3: Interactive Catalog Data Table -->
+        <div id="catalog" class="neo-box p-6 space-y-5">
+            
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b-3 border-black pb-4">
+                <div>
+                    <span class="neo-badge bg-yellow-300 text-black">HASHMAP COLLECTION</span>
+                    <h3 class="text-2xl font-black heading-font mt-1">Reported Items Catalog</h3>
+                    <p class="text-xs font-bold text-gray-600">Real-time table synchronized with Oracle SQL DB `ITEMS` table.</p>
+                </div>
+
+                <!-- Functional Filter Bar -->
+                <div class="flex flex-wrap items-center gap-2.5">
+                    
+                    <!-- Search Input -->
+                    <div class="relative">
+                        <input type="text" id="search-input" oninput="filterItemsTable()" placeholder="Search ID, name, location, reporter..." class="neo-input px-3.5 py-2 text-xs w-64 pl-8">
+                        <i class="fas fa-search absolute left-3 top-3 text-gray-500 text-xs"></i>
+                    </div>
+
+                    <!-- Type Filter -->
+                    <select id="filter-type" onchange="filterItemsTable()" class="neo-input px-3 py-2 text-xs bg-white">
+                        <option value="ALL">All Types</option>
+                        <option value="LOST">Lost Items</option>
+                        <option value="FOUND">Found Items</option>
+                    </select>
+
+                    <!-- Status Filter -->
+                    <select id="filter-status" onchange="filterItemsTable()" class="neo-input px-3 py-2 text-xs bg-white">
+                        <option value="ALL">All Statuses</option>
+                        <option value="ACTIVE">ACTIVE</option>
+                        <option value="CLAIMED">CLAIMED</option>
+                        <option value="RETURNED">RETURNED</option>
+                    </select>
+
+                    <!-- Category Filter -->
+                    <select id="filter-category" onchange="filterItemsTable()" class="neo-input px-3 py-2 text-xs bg-white">
+                        <option value="ALL">All Categories</option>
+                        <option value="Personal">Personal</option>
+                        <option value="Electronics">Electronics</option>
+                        <option value="Documents">Documents</option>
+                        <option value="Books">Books</option>
+                        <option value="Other">Other</option>
+                    </select>
+
+                    <!-- Reset Filters Button -->
+                    <button onclick="resetFilters()" class="neo-btn bg-white px-3 py-2 text-xs" title="Reset all filters">
+                        <i class="fas fa-times text-gray-600"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Table -->
+            <div class="overflow-x-auto border-3 border-black rounded-xl">
+                <table class="w-full text-left text-xs font-bold">
+                    <thead class="bg-yellow-300 text-black border-b-3 border-black uppercase text-xs tracking-wider">
+                        <tr>
+                            <th class="p-3.5 border-r-2 border-black">ID</th>
+                            <th class="p-3.5 border-r-2 border-black">Item Name</th>
+                            <th class="p-3.5 border-r-2 border-black">Category</th>
+                            <th class="p-3.5 border-r-2 border-black">Location</th>
+                            <th class="p-3.5 border-r-2 border-black">Date</th>
+                            <th class="p-3.5 border-r-2 border-black">Reported By</th>
+                            <th class="p-3.5 border-r-2 border-black">Type</th>
+                            <th class="p-3.5 border-r-2 border-black">Status</th>
+                            <th class="p-3.5 text-center">Interactive Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="items-table-body" class="divide-y-2 divide-black bg-white">
+                        <!-- Dynamic items -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Section 4: Recovery History (LinkedList) Audit Trail -->
+        <div id="history" class="neo-box-green p-6 space-y-4">
+            <div class="flex items-center justify-between border-b-3 border-black pb-3">
+                <div>
+                    <span class="neo-badge bg-white text-black">LINKEDLIST &bull; SEQUENTIAL AUDIT TRAIL</span>
+                    <h3 class="text-2xl font-black heading-font text-black mt-1">Returned Items Audit Trail</h3>
+                </div>
+                <span id="history-badge" class="neo-badge bg-black text-yellow-300">0 Items Returned</span>
+            </div>
+            <p class="text-xs font-bold text-gray-800">
+                Maintained sequentially in a Java `LinkedList&lt;Item&gt;` and logged permanently in Oracle `RECOVERY_HISTORY` via two-phase commit transactions:
+            </p>
+
+            <div id="history-container" class="space-y-3 max-h-64 overflow-y-auto pr-1">
+                <!-- Dynamic history -->
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Report Item Modal -->
+    <div id="report-modal" class="fixed inset-0 bg-black bg-opacity-70 hidden flex items-center justify-center p-4 z-50">
+        <div class="neo-box-yellow max-w-lg w-full p-6 space-y-4 shadow-2xl">
+            <div class="flex items-center justify-between border-b-3 border-black pb-3">
+                <div>
+                    <span class="neo-badge bg-black text-yellow-300">NEW REPORT</span>
+                    <h3 id="report-modal-title" class="text-xl font-black heading-font mt-1">Report Lost / Found Item</h3>
+                </div>
+                <button onclick="closeReportModal()" class="neo-btn bg-white px-2.5 py-1 text-xs">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <!-- Tab Switcher -->
+            <div class="grid grid-cols-2 gap-2">
+                <button type="button" id="tab-lost" onclick="switchReportTab('LOST')" class="neo-btn bg-red-400 text-black py-2 text-xs font-black">
+                    <i class="fas fa-search mr-1.5"></i> I Lost Something
+                </button>
+                <button type="button" id="tab-found" onclick="switchReportTab('FOUND')" class="neo-btn bg-white text-black py-2 text-xs font-black">
+                    <i class="fas fa-hand-holding-heart mr-1.5"></i> I Found Something
+                </button>
+            </div>
+
+            <form id="form-report" onsubmit="handleReportSubmit(event)" class="space-y-3 pt-2">
+                <input type="hidden" id="report-type" value="LOST">
+                <div>
+                    <label class="block text-xs font-black uppercase">Item Name</label>
+                    <input type="text" id="report-name" required placeholder="e.g. Dell Inspiron Laptop, Black Wallet" class="w-full mt-1 p-2.5 neo-input text-xs">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-black uppercase">Category</label>
+                        <select id="report-category" required class="w-full mt-1 p-2.5 neo-input text-xs bg-white">
+                            <option value="Personal">Personal</option>
+                            <option value="Electronics">Electronics</option>
+                            <option value="Documents">Documents</option>
+                            <option value="Books">Books</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-black uppercase">Campus Location</label>
+                        <input type="text" id="report-location" required placeholder="e.g. Central Library, Lab 3" class="w-full mt-1 p-2.5 neo-input text-xs">
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-black uppercase">Date</label>
+                        <input type="text" id="report-date" required class="w-full mt-1 p-2.5 neo-input text-xs">
+                    </div>
+                    <div>
+                        <label id="label-person" class="block text-xs font-black uppercase">Student / Reporter Name</label>
+                        <input type="text" id="report-person" required placeholder="e.g. Rahul Sharma" class="w-full mt-1 p-2.5 neo-input text-xs">
+                    </div>
+                </div>
+                <div class="flex justify-end space-x-2 pt-3 border-t-2 border-black">
+                    <button type="button" onclick="closeReportModal()" class="neo-btn bg-white px-4 py-2 text-xs">Cancel</button>
+                    <button type="submit" class="neo-btn-black px-6 py-2 text-xs">
+                        <i class="fas fa-check mr-1.5 text-yellow-300"></i> Submit to System
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Claim Modal -->
+    <div id="claim-modal" class="fixed inset-0 bg-black bg-opacity-70 hidden flex items-center justify-center p-4 z-50">
+        <div class="neo-box-pink max-w-md w-full p-6 space-y-4 shadow-2xl">
+            <div class="flex items-center justify-between border-b-3 border-black pb-3">
+                <div>
+                    <span class="neo-badge bg-black text-yellow-300">CLAIM VERIFICATION</span>
+                    <h3 class="text-xl font-black heading-font mt-1">Claim Item #<span id="claim-item-id"></span></h3>
+                </div>
+                <button onclick="closeClaimModal()" class="neo-btn bg-white px-2.5 py-1 text-xs">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <p id="claim-item-desc" class="text-xs font-bold text-gray-800 bg-white p-2.5 border-2 border-black rounded-lg">
+                Claiming this found item will enqueue your request into the Java FIFO Claim Queue.
+            </p>
+
+            <form onsubmit="handleClaimSubmit(event)" class="space-y-3">
+                <input type="hidden" id="claim-target-id">
+                <div>
+                    <label class="block text-xs font-black uppercase">Your Full Name</label>
+                    <input type="text" id="claim-student-name" required placeholder="e.g. Rahul Sharma" class="w-full mt-1 p-2.5 neo-input text-xs">
+                </div>
+                <div>
+                    <label class="block text-xs font-black uppercase">Student ID / Roll No</label>
+                    <input type="text" id="claim-student-id" required placeholder="e.g. 24CS101" class="w-full mt-1 p-2.5 neo-input text-xs">
+                </div>
+                <div>
+                    <label class="block text-xs font-black uppercase">Proof of Ownership / Description</label>
+                    <textarea id="claim-reason" required rows="3" placeholder="Describe unique stickers, inside contents, color details or serial number..." class="w-full mt-1 p-2.5 neo-input text-xs"></textarea>
+                </div>
+                <div class="flex justify-end space-x-2 pt-2 border-t-2 border-black">
+                    <button type="button" onclick="closeClaimModal()" class="neo-btn bg-white px-4 py-2 text-xs">Cancel</button>
+                    <button type="submit" class="neo-btn-black px-5 py-2 text-xs">
+                        <i class="fas fa-plus-circle mr-1.5 text-yellow-300"></i> Enqueue Claim
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Item Details Inspector Modal -->
+    <div id="details-modal" class="fixed inset-0 bg-black bg-opacity-70 hidden flex items-center justify-center p-4 z-50">
+        <div class="neo-box-blue max-w-lg w-full p-6 space-y-4 shadow-2xl">
+            <div class="flex items-center justify-between border-b-3 border-black pb-3">
+                <div>
+                    <span class="neo-badge bg-black text-yellow-300">ITEM INSPECTOR</span>
+                    <h3 class="text-xl font-black heading-font mt-1">Item #<span id="details-id"></span> Details</h3>
+                </div>
+                <button onclick="closeDetailsModal()" class="neo-btn bg-white px-2.5 py-1 text-xs">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="space-y-3 bg-white p-4 border-2 border-black rounded-lg text-xs font-bold text-black">
+                <div class="grid grid-cols-2 gap-2 border-b border-gray-300 pb-2">
+                    <span class="text-gray-600">Item Name:</span>
+                    <span id="details-name" class="font-black text-black"></span>
+                </div>
+                <div class="grid grid-cols-2 gap-2 border-b border-gray-300 pb-2">
+                    <span class="text-gray-600">Category:</span>
+                    <span id="details-category"></span>
+                </div>
+                <div class="grid grid-cols-2 gap-2 border-b border-gray-300 pb-2">
+                    <span class="text-gray-600">Location:</span>
+                    <span id="details-location"></span>
+                </div>
+                <div class="grid grid-cols-2 gap-2 border-b border-gray-300 pb-2">
+                    <span class="text-gray-600">Date Reported:</span>
+                    <span id="details-date"></span>
+                </div>
+                <div class="grid grid-cols-2 gap-2 border-b border-gray-300 pb-2">
+                    <span class="text-gray-600">Reported By:</span>
+                    <span id="details-reporter"></span>
+                </div>
+                <div class="grid grid-cols-2 gap-2 border-b border-gray-300 pb-2">
+                    <span class="text-gray-600">Item Type:</span>
+                    <span id="details-type" class="neo-badge bg-yellow-300 text-black"></span>
+                </div>
+                <div class="grid grid-cols-2 gap-2 border-b border-gray-300 pb-2">
+                    <span class="text-gray-600">Current Status:</span>
+                    <span id="details-status" class="neo-badge bg-emerald-300 text-black"></span>
+                </div>
+                <div class="grid grid-cols-2 gap-2 pt-1">
+                    <span class="text-gray-600">Oracle SQL Mapping:</span>
+                    <span class="text-xs text-blue-900 font-mono">TABLE: ITEMS (ID: <span id="details-db-id"></span>)</span>
+                </div>
+            </div>
+
+            <div class="flex justify-between items-center pt-2">
+                <button id="details-claim-btn" onclick="openClaimFromDetails()" class="neo-btn bg-purple-300 px-4 py-2 text-xs">
+                    <i class="fas fa-hand-holding-heart mr-1"></i> Claim This Item
+                </button>
+                <button onclick="closeDetailsModal()" class="neo-btn bg-white px-5 py-2 text-xs">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-6 right-6 neo-box-yellow p-4 hidden z-50 flex items-center space-x-3 text-xs font-black shadow-2xl">
+        <i id="toast-icon" class="fas fa-bolt text-lg"></i>
+        <span id="toast-message">Message</span>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-yellow-400 border-t-4 border-black py-5 text-center text-xs font-black text-black">
+        CAMPUS DROP &bull; SMART LOST & FOUND SYSTEM &bull; JAVA DATA STRUCTURES & OOP ARCHITECTURE
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        let allItems = [];
+        let currentDetailsItem = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set default date to today
+            const today = new Date();
+            const dateStr = `${String(today.getDate()).padStart(2, '0')}/${String(today.getMonth() + 1).padStart(2, '0')}/${today.getFullYear()}`;
+            document.getElementById('report-date').value = dateStr;
+
+            loadDashboard();
+        });
+
+        async function loadDashboard() {
+            const refreshIcon = document.getElementById('refresh-icon');
+            if (refreshIcon) refreshIcon.classList.add('fa-spin');
+            
+            try {
+                await Promise.all([loadStats(), loadItems(), loadMatches(), loadQueue(), loadHistory()]);
+            } catch (err) {
+                console.error('Dashboard load error:', err);
+            } finally {
+                if (refreshIcon) refreshIcon.classList.remove('fa-spin');
+            }
+        }
+
+        function showToast(msg, isError = false) {
+            const toast = document.getElementById('toast');
+            const icon = document.getElementById('toast-icon');
+            document.getElementById('toast-message').innerText = msg;
+            
+            if (isError) {
+                toast.className = 'fixed bottom-6 right-6 neo-box-pink p-4 z-50 flex items-center space-x-3 text-xs font-black shadow-2xl';
+                icon.className = 'fas fa-exclamation-triangle text-lg text-red-600';
+            } else {
+                toast.className = 'fixed bottom-6 right-6 neo-box-yellow p-4 z-50 flex items-center space-x-3 text-xs font-black shadow-2xl';
+                icon.className = 'fas fa-bolt text-lg text-black';
+            }
+
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('hidden'), 3500);
+        }
+
+        async function loadStats() {
+            try {
+                const res = await fetch('/api/stats');
+                const data = await res.json();
+                document.getElementById('stat-total').innerText = data.totalItems || 0;
+                document.getElementById('stat-active').innerText = data.activeItems || 0;
+                document.getElementById('stat-returned').innerText = data.returnedItems || 0;
+                document.getElementById('stat-queue').innerText = data.pendingClaims || 0;
+
+                if (data.oracleOnline) {
+                    document.getElementById('oracle-indicator').innerText = 'ORACLE SQL DB: CONNECTED (XE)';
+                } else {
+                    document.getElementById('oracle-indicator').innerText = 'ORACLE DB: OFFLINE (MEMORY FALLBACK)';
+                }
+            } catch (err) {
+                console.error('Stats error:', err);
+            }
+        }
+
+        async function loadItems() {
+            try {
+                const res = await fetch('/api/items');
+                allItems = await res.json();
+                filterItemsTable();
+            } catch (err) {
+                console.error('Items error:', err);
+            }
+        }
+
+        function renderItemsTable(items) {
+            const tbody = document.getElementById('items-table-body');
+            if (!items || items.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="9" class="p-6 text-center font-bold text-gray-500">No matching items found. Try resetting filters or reporting a new item.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = items.map(item => `
+                <tr class="hover:bg-yellow-50 transition border-b-2 border-black">
+                    <td class="p-3.5 border-r-2 border-black font-black">#${item.id}</td>
+                    <td class="p-3.5 border-r-2 border-black font-black text-black">${item.name}</td>
+                    <td class="p-3.5 border-r-2 border-black">${item.category}</td>
+                    <td class="p-3.5 border-r-2 border-black"><i class="fas fa-map-marker-alt text-red-500 mr-1"></i>${item.location}</td>
+                    <td class="p-3.5 border-r-2 border-black text-xs font-bold">${item.date}</td>
+                    <td class="p-3.5 border-r-2 border-black">${item.reportedBy}</td>
+                    <td class="p-3.5 border-r-2 border-black">
+                        <span class="neo-badge ${item.type === 'LOST' ? 'bg-red-400 text-black' : 'bg-emerald-300 text-black'}">
+                            ${item.type}
+                        </span>
+                    </td>
+                    <td class="p-3.5 border-r-2 border-black">
+                        <span class="neo-badge ${
+                            item.status === 'ACTIVE' ? 'bg-sky-300 text-black' :
+                            item.status === 'CLAIMED' ? 'bg-amber-300 text-black' : 'bg-emerald-400 text-black'
+                        }">
+                            ${item.status}
+                        </span>
+                    </td>
+                    <td class="p-3.5 text-center space-x-1.5 whitespace-nowrap">
+                        <button onclick="viewItemDetails(${item.id})" class="neo-btn bg-white px-2.5 py-1 text-xs" title="Inspect Item Properties">
+                            <i class="fas fa-eye"></i> Details
+                        </button>
+                        ${item.type === 'FOUND' && item.status === 'ACTIVE' ? `
+                            <button onclick="openClaimModal(${item.id}, '${item.name}')" class="neo-btn bg-purple-300 px-2.5 py-1 text-xs" title="Enqueue Claim">
+                                <i class="fas fa-hand-holding-heart mr-1"></i> Claim
+                            </button>
+                        ` : ''}
+                        ${item.status === 'CLAIMED' ? `
+                            <button onclick="handleReturnItem(${item.id})" class="neo-btn bg-emerald-400 px-2.5 py-1 text-xs" title="Execute 2-Phase Return Transaction">
+                                <i class="fas fa-check-circle mr-1"></i> Return
+                            </button>
+                        ` : ''}
+                        <button onclick="handleDeleteItem(${item.id})" class="neo-btn-danger px-2 py-1 text-xs" title="Delete Item">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function filterItemsTable() {
+            const search = (document.getElementById('search-input').value || '').toLowerCase().trim();
+            const type = document.getElementById('filter-type').value;
+            const status = document.getElementById('filter-status').value;
+            const category = document.getElementById('filter-category').value;
+
+            const filtered = allItems.filter(item => {
+                const matchesSearch = !search ||
+                    item.name.toLowerCase().includes(search) ||
+                    item.location.toLowerCase().includes(search) ||
+                    item.category.toLowerCase().includes(search) ||
+                    item.reportedBy.toLowerCase().includes(search) ||
+                    item.id.toString().includes(search);
+
+                const matchesType = type === 'ALL' || item.type === type;
+                const matchesStatus = status === 'ALL' || item.status === status;
+                const matchesCat = category === 'ALL' || item.category === category;
+
+                return matchesSearch && matchesType && matchesStatus && matchesCat;
+            });
+
+            renderItemsTable(filtered);
+        }
+
+        function applyQuickFilter(type, status) {
+            if (type) document.getElementById('filter-type').value = type;
+            if (status) document.getElementById('filter-status').value = status;
+            filterItemsTable();
+            document.getElementById('catalog').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function resetFilters() {
+            document.getElementById('search-input').value = '';
+            document.getElementById('filter-type').value = 'ALL';
+            document.getElementById('filter-status').value = 'ALL';
+            document.getElementById('filter-category').value = 'ALL';
+            filterItemsTable();
+        }
+
+        async function loadMatches() {
+            const container = document.getElementById('matches-container');
+            try {
+                const res = await fetch('/api/matches');
+                const matches = await res.json();
+                if (!matches || matches.length === 0) {
+                    container.innerHTML = `
+                        <div class="bg-gray-100 p-6 border-2 border-black rounded-lg text-center">
+                            <i class="fas fa-search-location text-3xl text-gray-400 mb-2"></i>
+                            <p class="text-xs font-bold text-gray-600">No active matches found. Try reporting a found item that matches an existing lost item or click "1-Click Demo Seed".</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = matches.map(m => `
+                    <div class="neo-box-yellow p-4 flex flex-col md:flex-row md:items-center justify-between gap-3">
+                        <div class="space-y-1">
+                            <div class="flex items-center space-x-2">
+                                <span class="neo-badge bg-black text-yellow-300 text-xs">MATCH DETECTED</span>
+                                <span class="neo-badge bg-white text-black text-xs">${m.category}</span>
+                            </div>
+                            <div class="text-xs font-black text-black">
+                                <span class="text-red-700 font-extrabold">LOST:</span> #${m.lostId} ${m.lostName} (By ${m.lostBy} at ${m.lostLocation})
+                            </div>
+                            <div class="text-xs font-black text-black">
+                                <span class="text-green-800 font-extrabold">FOUND:</span> #${m.foundId} ${m.foundName} (By ${m.foundBy} at ${m.foundLocation})
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button onclick="openClaimModal(${m.foundId}, '${m.foundName}')" class="neo-btn-black px-3.5 py-1.5 text-xs">
+                                <i class="fas fa-hand-holding-heart mr-1 text-yellow-300"></i> Claim #${m.foundId}
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (err) {
+                console.error('Matches error:', err);
+            }
+        }
+
+        async function loadQueue() {
+            const container = document.getElementById('queue-container');
+            const badge = document.getElementById('queue-badge');
+            try {
+                const res = await fetch('/api/claims');
+                const claims = await res.json();
+                badge.innerText = `${claims.length} In Queue`;
+
+                if (!claims || claims.length === 0) {
+                    container.innerHTML = `
+                        <div class="bg-white p-6 border-2 border-black rounded-lg text-center">
+                            <i class="fas fa-inbox text-3xl text-gray-300 mb-2"></i>
+                            <p class="text-xs font-bold text-gray-600">No pending claim requests in the Java FIFO Queue.</p>
+                            <p class="text-xs font-bold text-gray-500 mt-1">Submit a claim on any Found item to see it queued here.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = claims.map((claim, index) => `
+                    <div class="neo-box p-3.5 bg-white flex flex-col md:flex-row md:items-center justify-between gap-2">
+                        <div>
+                            <div class="flex items-center space-x-2">
+                                <span class="neo-badge ${index === 0 ? 'bg-yellow-300 text-black' : 'bg-gray-200 text-black'}">
+                                    ${index === 0 ? 'HEAD &bull; POSITION #1' : `POSITION #${index + 1}`}
+                                </span>
+                                <span class="text-xs font-black text-black">${claim.studentName} (${claim.studentId})</span>
+                            </div>
+                            <span class="text-xs font-bold text-gray-800 block mt-1">
+                                Claiming Item #${claim.itemId} &bull; "${claim.claimReason}"
+                            </span>
+                        </div>
+                        ${index === 0 ? `
+                            <div class="flex space-x-2">
+                                <button onclick="processClaim(true)" class="neo-btn bg-emerald-400 px-3 py-1.5 text-xs font-black" title="Approve claim and update status to CLAIMED">
+                                    <i class="fas fa-check mr-1"></i> Approve
+                                </button>
+                                <button onclick="processClaim(false)" class="neo-btn bg-red-400 px-3 py-1.5 text-xs font-black" title="Reject claim and dequeue">
+                                    <i class="fas fa-times mr-1"></i> Reject
+                                </button>
+                            </div>
+                        ` : `
+                            <span class="text-xs font-extrabold text-gray-500">Waiting in FIFO line</span>
+                        `}
+                    </div>
+                `).join('');
+            } catch (err) {
+                console.error('Queue error:', err);
+            }
+        }
+
+        async function loadHistory() {
+            const container = document.getElementById('history-container');
+            const badge = document.getElementById('history-badge');
+            try {
+                const res = await fetch('/api/history');
+                const history = await res.json();
+                badge.innerText = `${history.length} Items Returned`;
+
+                if (!history || history.length === 0) {
+                    container.innerHTML = `
+                        <div class="bg-white p-6 border-2 border-black rounded-lg text-center">
+                            <i class="fas fa-archive text-3xl text-gray-300 mb-2"></i>
+                            <p class="text-xs font-bold text-gray-700">No items returned yet.</p>
+                            <p class="text-xs font-bold text-gray-500 mt-1">Approve a claim, then click "Return" to execute a two-phase transaction and record it here.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = history.map((item, idx) => `
+                    <div class="neo-box p-3.5 bg-white flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <span class="neo-badge bg-black text-yellow-300">NODE #${idx + 1}</span>
+                            <div>
+                                <span class="text-xs font-black text-black">#${item.id} &bull; ${item.name} (${item.category})</span>
+                                <span class="text-xs font-bold text-gray-600 block">Recovered at ${item.location} | Date: ${item.date} | Handled by: ${item.reportedBy}</span>
+                            </div>
+                        </div>
+                        <span class="neo-badge bg-emerald-400 text-black">
+                            <i class="fas fa-check-double mr-1"></i> LOGGED IN DB
+                        </span>
+                    </div>
+                `).join('');
+            } catch (err) {
+                console.error('History error:', err);
+            }
+        }
+
+        function openReportModal(defaultType = 'LOST') {
+            switchReportTab(defaultType);
+            document.getElementById('report-modal').classList.remove('hidden');
+        }
+
+        function closeReportModal() {
+            document.getElementById('report-modal').classList.add('hidden');
+        }
+
+        function switchReportTab(type) {
+            document.getElementById('report-type').value = type;
+            const tabLost = document.getElementById('tab-lost');
+            const tabFound = document.getElementById('tab-found');
+            const labelPerson = document.getElementById('label-person');
+            const modalTitle = document.getElementById('report-modal-title');
+
+            if (type === 'LOST') {
+                tabLost.className = 'neo-btn bg-red-400 text-black py-2 text-xs font-black';
+                tabFound.className = 'neo-btn bg-white text-black py-2 text-xs font-black';
+                labelPerson.innerText = 'Student / Owner Name';
+                modalTitle.innerText = 'Report Lost Item';
+            } else {
+                tabFound.className = 'neo-btn bg-emerald-400 text-black py-2 text-xs font-black';
+                tabLost.className = 'neo-btn bg-white text-black py-2 text-xs font-black';
+                labelPerson.innerText = 'Finder Name';
+                modalTitle.innerText = 'Report Found Item';
+            }
+        }
+
+        async function handleReportSubmit(e) {
+            e.preventDefault();
+            const type = document.getElementById('report-type').value;
+            const endpoint = type === 'LOST' ? '/api/report-lost' : '/api/report-found';
+            
+            const body = {
+                name: document.getElementById('report-name').value,
+                category: document.getElementById('report-category').value,
+                location: document.getElementById('report-location').value,
+                date: document.getElementById('report-date').value,
+                studentName: document.getElementById('report-person').value,
+                finderName: document.getElementById('report-person').value
+            };
+
+            try {
+                const res = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                });
+                const data = await res.json();
+                closeReportModal();
+
+                if (data.success) {
+                    showToast(`${type} Item #${data.id} recorded in HashMap & Oracle SQL!`);
+                    document.getElementById('form-report').reset();
+                    loadDashboard();
+                } else {
+                    showToast('Failed to record item', true);
+                }
+            } catch (err) {
+                showToast('Network error while saving item', true);
+            }
+        }
+
+        function openClaimModal(itemId, itemName = '') {
+            document.getElementById('claim-item-id').innerText = itemId;
+            document.getElementById('claim-target-id').value = itemId;
+            if (itemName) {
+                document.getElementById('claim-item-desc').innerText = `Claiming Found Item #${itemId} (${itemName}). Your claim will be placed into the Java FIFO Queue.`;
+            }
+            document.getElementById('claim-modal').classList.remove('hidden');
+        }
+
+        function closeClaimModal() {
+            document.getElementById('claim-modal').classList.add('hidden');
+        }
+
+        async function handleClaimSubmit(e) {
+            e.preventDefault();
+            const body = {
+                itemId: parseInt(document.getElementById('claim-target-id').value),
+                studentName: document.getElementById('claim-student-name').value,
+                studentId: document.getElementById('claim-student-id').value,
+                claimReason: document.getElementById('claim-reason').value
+            };
+
+            try {
+                const res = await fetch('/api/claim', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                });
+                const data = await res.json();
+                closeClaimModal();
+
+                if (data.success) {
+                    showToast('Claim enqueued into Java FIFO Queue & Oracle DB!');
+                    loadDashboard();
+                } else {
+                    showToast(data.message || 'Error submitting claim', true);
+                }
+            } catch (err) {
+                showToast('Network error while submitting claim', true);
+            }
+        }
+
+        async function processClaim(approve) {
+            try {
+                const res = await fetch('/api/process-claim', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ approve: approve })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    showToast(approve ? 'Claim Approved! Item marked CLAIMED.' : 'Claim Rejected and dequeued.');
+                    loadDashboard();
+                }
+            } catch (err) {
+                showToast('Error processing claim', true);
+            }
+        }
+
+        async function handleReturnItem(itemId) {
+            try {
+                const res = await fetch('/api/return-item', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ itemId: itemId })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    showToast(`Item #${itemId} returned! Logged to LinkedList & Oracle RECOVERY_HISTORY.`);
+                    loadDashboard();
+                } else {
+                    showToast(data.message || 'Error returning item', true);
+                }
+            } catch (err) {
+                showToast('Network error during return transaction', true);
+            }
+        }
+
+        async function handleDeleteItem(itemId) {
+            if (!confirm(`Are you sure you want to delete Item #${itemId} from HashMap and Oracle SQL DB?`)) {
+                return;
+            }
+
+            try {
+                const res = await fetch('/api/delete-item', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ itemId: itemId })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    showToast(`Item #${itemId} deleted.`);
+                    loadDashboard();
+                } else {
+                    showToast(data.message || 'Error deleting item', true);
+                }
+            } catch (err) {
+                showToast('Network error during item deletion', true);
+            }
+        }
+
+        async function undoLastAction() {
+            try {
+                const res = await fetch('/api/undo', { method: 'POST' });
+                const data = await res.json();
+                if (data.success) {
+                    showToast(`Undone: ${data.action}`);
+                    loadDashboard();
+                } else {
+                    showToast(data.message || 'No operations available in Stack to undo.', true);
+                }
+            } catch (err) {
+                showToast('Error triggering undo', true);
+            }
+        }
+
+        async function seedDemoData() {
+            try {
+                const res = await fetch('/api/demo-seed', { method: 'POST' });
+                const data = await res.json();
+                if (data.success) {
+                    showToast(data.message);
+                    loadDashboard();
+                }
+            } catch (err) {
+                showToast('Error seeding demo data', true);
+            }
+        }
+
+        function viewItemDetails(itemId) {
+            const item = allItems.find(i => i.id === itemId);
+            if (!item) return;
+
+            currentDetailsItem = item;
+            document.getElementById('details-id').innerText = item.id;
+            document.getElementById('details-name').innerText = item.name;
+            document.getElementById('details-category').innerText = item.category;
+            document.getElementById('details-location').innerText = item.location;
+            document.getElementById('details-date').innerText = item.date;
+            document.getElementById('details-reporter').innerText = item.reportedBy;
+            document.getElementById('details-type').innerText = item.type;
+            document.getElementById('details-status').innerText = item.status;
+            document.getElementById('details-db-id').innerText = item.id;
+
+            const claimBtn = document.getElementById('details-claim-btn');
+            if (item.type === 'FOUND' && item.status === 'ACTIVE') {
+                claimBtn.classList.remove('hidden');
+            } else {
+                claimBtn.classList.add('hidden');
+            }
+
+            document.getElementById('details-modal').classList.remove('hidden');
+        }
+
+        function closeDetailsModal() {
+            document.getElementById('details-modal').classList.add('hidden');
+            currentDetailsItem = null;
+        }
+
+        function openClaimFromDetails() {
+            if (currentDetailsItem) {
+                closeDetailsModal();
+                openClaimModal(currentDetailsItem.id, currentDetailsItem.name);
+            }
+        }
+    </script>
+</body>
+</html>
