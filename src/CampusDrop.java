@@ -13,15 +13,7 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Stack;
 
-/**
- * CampusDrop.java
- * Core business logic class integrating Java Collections with local Oracle SQL Database via JDBC DAOs:
- * 1. HashMap<Integer, Item> - Fast O(1) in-memory lookup.
- * 2. LinkedList<Item> - Sequential audit trail of returned items.
- * 3. Stack<String> - LIFO Undo mechanism.
- * 4. Queue<ClaimRequest> - FIFO Queue for processing student claims.
- * 5. Oracle SQL DAOs (ItemDAO, ClaimDAO, HistoryDAO) - Persistent database layer.
- */
+
 public class CampusDrop {
 
     // Mandatory Java Data Structures
@@ -57,10 +49,7 @@ public class CampusDrop {
         syncFromDatabase();
     }
 
-    /**
-     * Loads existing records from Oracle Database into Java Collections.
-     * Fallback to sample data if DB is empty or offline.
-     */
+  
     private void syncFromDatabase() {
         if (isOracleAvailable) {
             List<Item> dbItems = itemDAO.getAllItems();

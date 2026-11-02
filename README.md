@@ -1,15 +1,17 @@
 # CAMPUS DROP: Smart Lost & Found Management System
 
-> **A College-Level Java Mini-Project Using Standard Data Structures & Local Oracle SQL Database**
+> **A Java & Oracle SQL Database Mini-Project using Java Collections Framework & JDBC**
 
 ---
 
-## 📌 Project Overview
-**CampusDrop** is a smart Lost and Found Management System designed for college campuses. It combines standard Java Data Structures (**HashMap**, **LinkedList**, **Stack**, **Queue**) for in-memory runtime operations with a **Local Oracle SQL Database** (via JDBC DAOs) for persistent storage.
+## Project Overview
+**CampusDrop** is a Lost and Found Management System designed for college campuses. It combines standard Java Data Structures (**HashMap**, **LinkedList**, **Stack**, **Queue**) for fast runtime operations with an **Oracle SQL Database** (via JDBC DAO layer) for persistent storage.
+
+It provides an intuitive web interface at `http://localhost:3000` with Neo-Brutalist styling where students and campus staff can report lost/found items, browse items, verify claims, view potential matches, and track recovery history.
 
 ---
 
-## 🛠️ Data Structures & Database Architecture
+## Data Structures & Database Architecture
 
 ```text
                            CampusDrop Application
@@ -18,23 +20,23 @@
        |                                                             |
    Java DSA Layer (Runtime)                                 Oracle JDBC Layer (Persistence)
    -----------------------                                 ------------------------------
-   - HashMap<Integer, Item>   <---- Sync / Cache ---->      - ITEMS Table
+   - HashMap<Integer, Item>   <---- Cache / Sync ---->      - ITEMS Table
    - LinkedList<Item>         <---- Audit Trail ---->      - RECOVERY_HISTORY Table
    - Queue<ClaimRequest>      <---- FIFO Queue  ---->      - CLAIMS Table
    - Stack<String>            <---- LIFO Undo   ---->      - PreparedStatement DAOs
 ```
 
-| Component | Class / Object | Purpose in System |
-| :--- | :--- | :--- |
-| **HashMap** | `HashMap<Integer, Item>` | Stores all items using unique **Item ID** as key ($O(1)$ lookup time). |
-| **LinkedList** | `LinkedList<Item>` | Stores history of returned items (`recoveryHistory`) in chronological sequence. |
-| **Stack** | `Stack<String>` | Implements **Undo Action** functionality (`actionStack`) following LIFO mechanics. |
-| **Queue** | `Queue<ClaimRequest>` | Manages pending item claim requests (`claimQueue`) in strict **FIFO** sequence. |
-| **Oracle DB** | `ITEMS`, `CLAIMS`, `RECOVERY_HISTORY` | Permanent database layer accessed using Oracle JDBC Driver (`ojdbc8.jar`). |
+| Component | Class / Collection | Purpose in System | Time Complexity |
+| :--- | :--- | :--- | :--- |
+| **HashMap** | `HashMap<Integer, Item>` | Stores all items using unique **Item ID** as key. | O(1) fast lookup |
+| **LinkedList** | `LinkedList<Item>` | Stores history of returned items (`recoveryHistory`) in chronological sequence. | O(1) tail appends |
+| **Stack** | `Stack<String>` | Implements **Undo Action** functionality (`actionStack`) following LIFO mechanics. | O(1) push / pop |
+| **Queue** | `Queue<ClaimRequest>` | Manages pending item claim requests (`claimQueue`) in strict **FIFO** sequence. | O(1) offer / poll |
+| **Oracle DB** | `ITEMS`, `CLAIMS`, `RECOVERY_HISTORY` | Permanent database layer accessed using Oracle JDBC Driver (`ojdbc8.jar`). | Relational storage |
 
 ---
 
-## 📁 Project Structure
+## Project Directory Structure
 
 ```text
 CampusDrop/
@@ -49,86 +51,67 @@ CampusDrop/
 │   │   └── ClaimRequest.java   # Model class for student claim requests
 │   │
 │   └── database/
-│       ├── DatabaseConnection.java # Configurable Oracle JDBC connection settings
+│       ├── DatabaseConnection.java # Oracle JDBC connection configuration
 │       ├── ItemDAO.java        # PreparedStatement DAO for ITEMS table
 │       ├── ClaimDAO.java       # PreparedStatement DAO for CLAIMS table
 │       └── HistoryDAO.java     # PreparedStatement DAO for RECOVERY_HISTORY table
 │
 ├── sql/
-│   ├── campus_drop.sql         # Oracle SQL schema creation & sample data script
-│   └── queries.sql             # SQL test queries for Oracle SQL Developer
+│   ├── campus_drop.sql         # Oracle SQL schema creation & initial items script
+│   └── queries.sql             # SQL test queries for verification
 │
 ├── lib/
-│   └── ojdbc8.jar              # Oracle JDBC Driver JAR
+│   └── ojdbc8.jar              # Oracle JDBC Driver
 │
-├── index.html                  # Neo-Brutalism Dashboard Web UI
-├── oop.html                    # OOP & DSA Architecture Showcase Page
-├── README.md                   # Installation, build, & usage documentation
-├── PROJECT_REPORT.md           # 28-Section Academic Mini-Project Report
-└── VIVA.md                     # 30+ Viva Voce questions and answers
+├── campusdrop.properties       # Database credentials & connection settings
+├── index.html                  # Neo-Brutalist Web Application Dashboard
+├── oop.html                    # OOP Concepts & Data Structures Guide
+├── README.md                   # Project documentation
+└── LICENSE                     # MIT License
 ```
 
 ---
 
-## ⚙️ Local Oracle Database Setup
+## Database Configuration
 
-### Step 1: Install Local Oracle Database
-Ensure Oracle Database 21c XE, 19c, or 18c is installed and running on your machine.
-
-### Step 2: Start Oracle Services
-In Windows Services, make sure the Oracle database service and listener installed by your Oracle version are running. Service names vary by version and installation.
-```powershell
-Get-Service *Oracle*
-```
-
-### Step 3: Run Oracle SQL Setup Script
-Execute `sql/campus_drop_safe.sql` in the `XEPDB1` pluggable database using Oracle SQL Developer or SQL*Plus. It creates missing CampusDrop tables, sequences, and indexes, then inserts demo item rows only when their IDs are absent. It preserves existing rows. The older `campus_drop.sql` file is a destructive reset script and drops its tables.
-```bash
-sqlplus <username>/<password>@localhost:1522/XEPDB1 @sql/campus_drop_safe.sql
-```
-
----
-
-## ⚙️ Configuring Database Credentials
-
-Connection details are loaded from `campusdrop.properties` in the project root. The detected Oracle XE 21c installation on this laptop is configured for `127.0.0.1:1522` with service `XEPDB1`; the local file is already set to these values. Add the password for the database user that owns the CampusDrop tables:
+Database connection settings are loaded from `campusdrop.properties` in the project root:
 
 ```properties
-db.host=localhost
+db.host=127.0.0.1
 db.port=1522
 db.service=XEPDB1
 db.username=system
-db.password=your-local-password
+db.password=your_password
 ```
 
-Use the service name shown by Oracle if it differs from `XEPDB1`. You can instead set `db.url` to a full JDBC URL. Environment variables `CAMPUSDROP_DB_HOST`, `CAMPUSDROP_DB_PORT`, `CAMPUSDROP_DB_SERVICE`, `CAMPUSDROP_DB_USERNAME`, `CAMPUSDROP_DB_PASSWORD`, and `CAMPUSDROP_DB_URL` override file settings. The password is no longer stored in Java source.
+### Initializing the Database
+Execute `sql/campus_drop.sql` in your Oracle Database (e.g., via Oracle SQL Developer or SQL*Plus) to create the tables, sequences, constraints, and initial sample items.
 
 ---
 
-## 💻 Compilation & Running Instructions
+## Compilation & Running Instructions
 
-### Step 1: Open Terminal
+### Step 1: Compile the Project
+Open a terminal in the project directory and run:
 ```powershell
-cd "C:\Users\shaki\OneDrive\Desktop\Campus IDEA"
+javac -cp "lib/ojdbc8.jar;src" -d bin src/model/*.java src/database/*.java src/*.java
 ```
 
-### Step 2: Test Oracle Database Connection
+### Step 2: Test Database Connection (Optional diagnostic)
 ```powershell
-javac -cp "lib/ojdbc8.jar;src" src/model/*.java src/database/*.java src/*.java
-java -cp "lib/ojdbc8.jar;src" DatabaseTest
+java -cp "bin;lib/ojdbc8.jar" DatabaseTest
 ```
 
-### Step 3: Run Interactive Console Application
+### Step 3: Run the Web Server
 ```powershell
-java -cp "lib/ojdbc8.jar;src" Main
+java -cp "bin;lib/ojdbc8.jar" WebServer
 ```
 
-### Step 4: Run Web UI Server on `http://localhost:3000`
+Access the interfaces in any web browser:
+- **CampusDrop Web Dashboard**: [http://localhost:3000](http://localhost:3000)
+- **OOP Architecture Reference**: [http://localhost:3000/oop](http://localhost:3000/oop)
+
+### Step 4: Run Console Interface (Alternative)
 ```powershell
-java -cp "lib/ojdbc8.jar;src" WebServer
+java -cp "bin;lib/ojdbc8.jar" Main
 ```
-Open your browser to:
-- **Dashboard**: [http://localhost:3000](http://localhost:3000)
-- **OOP Architecture Guide**: [http://localhost:3000/oop](http://localhost:3000/oop)
-# campus-drop
-# campus-drop

@@ -18,7 +18,7 @@ import java.util.Scanner;
 /**
  * WebServer.java
  * Pure Java HTTP Server listening on http://localhost:3000
- * Serves Neo-Brutalist Dashboard at / and OOP & DSA Architecture Showcase at /oop.
+ * Serves Neo-Brutalist Dashboard at / and OOP Guide at /oop.
  * Connects directly to CampusDrop, Java Collections, and Oracle SQL Database.
  * Non-blocking, fast O(1) in-memory reads synchronized with Oracle SQL DB writes.
  */
@@ -54,8 +54,8 @@ public class WebServer {
         System.out.println("==================================================");
         System.out.println("   CAMPUS DROP WEB SERVER STARTED LOCALLY");
         System.out.println("==================================================");
-        System.out.println("   Dashboard UI at : http://localhost:" + PORT);
-        System.out.println("   OOP Guide UI at : http://localhost:" + PORT + "/oop");
+        System.out.println("   Student Portal at  : http://localhost:" + PORT);
+        System.out.println("   OOP Guide at       : http://localhost:" + PORT + "/oop");
         System.out.println("   Powered by Java Collections + Oracle SQL DB");
         System.out.println("==================================================");
         server.start();

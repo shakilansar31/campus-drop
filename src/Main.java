@@ -1,7 +1,6 @@
+import java.util.Scanner;
 import model.ClaimRequest;
 import model.Item;
-
-import java.util.Scanner;
 
 /**
  * Main.java
